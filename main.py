@@ -21,7 +21,7 @@ app.add_middleware(
 def get_db_connection():
     try:
         connection = psycopg2.connect(
-            database="StableControl",  # Название вашей базы данных
+            database="railway",  # Название вашей базы данных
             user="postgres",  # Имя пользователя PostgreSQL
             password="hpBRMvGQyQFPiJapAmRZqPSfBWAVIsjk",  # Ваш пароль для подключения
             host="autorack.proxy.rlwy.net",  # Хост, предоставленный Railway
