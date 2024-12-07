@@ -22,11 +22,12 @@ def get_db_connection():
     try:
         connection = psycopg2.connect(
             database="StableControl",  # Название вашей базы данных
-            user="viktor",  # Имя пользователя PostgreSQL
-            password="1213vity",  # Ваш пароль для подключения
+            user="postgres",  # Имя пользователя PostgreSQL
+            password="hpBRMvGQyQFPiJapAmRZqPSfBWAVIsjk",  # Ваш пароль для подключения
             host="autorack.proxy.rlwy.net",  # Хост, предоставленный Railway
             port=38728  # Порт, предоставленный Railway
         )
+
         return connection
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database connection error: {e}")
