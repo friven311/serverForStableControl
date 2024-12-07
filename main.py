@@ -3,10 +3,20 @@ from pydantic import BaseModel
 from typing import List
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from fastapi.middleware.cors import CORSMiddleware
+
+
 
 # Инициализация FastAPI
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Разрешить запросы с любого источника
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # Подключение к базе данных
 def get_db_connection():
     try:
