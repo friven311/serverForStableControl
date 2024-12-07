@@ -21,11 +21,11 @@ app.add_middleware(
 def get_db_connection():
     try:
         connection = psycopg2.connect(
-            database="StableControl",
-            user="viktor",
-            password="viktor",
-            host="localhost",
-            port=5432
+            database="StableControl",  # Название вашей базы данных
+            user="viktor",  # Имя пользователя PostgreSQL
+            password="viktor",  # Ваш пароль для подключения
+            host="autorack.proxy.rlwy.net",  # Хост, предоставленный Railway
+            port=38728  # Порт, предоставленный Railway
         )
         return connection
     except Exception as e:
