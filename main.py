@@ -23,9 +23,9 @@ def get_db_connection():
         connection = psycopg2.connect(
             database="railway",  # Название вашей базы данных
             user="postgres",  # Имя пользователя PostgreSQL
-            password="hpBRMvGQyQFPiJapAmRZqPSfBWAVIsjk",  # Ваш пароль для подключения
-            host="autorack.proxy.rlwy.net",  # Хост, предоставленный Railway
-            port=38728  # Порт, предоставленный Railway
+            password="BhhIzhaoTeLRYYNfeqRfUDCXxisEdvyG",  # Ваш пароль для подключения
+            host="junction.proxy.rlwy.net",  # Хост, предоставленный Railway
+            port=29860  # Порт, предоставленный Railway
         )
 
         return connection
