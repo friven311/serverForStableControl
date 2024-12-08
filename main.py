@@ -5,8 +5,6 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from fastapi.middleware.cors import CORSMiddleware
 
-
-
 # Инициализация FastAPI
 app = FastAPI()
 
@@ -17,33 +15,33 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 # Подключение к базе данных
 def get_db_connection():
     try:
         connection = psycopg2.connect(
             database="railway",  # Название вашей базы данных
             user="postgres",  # Имя пользователя PostgreSQL
-            password="BhhIzhaoTeLRYYNfeqRfUDCXxisEdvyG",  # Ваш пароль для подключения
-            host="junction.proxy.rlwy.net",  # Хост, предоставленный Railway
-            port=29860  # Порт, предоставленный Railway
+            password="ilcRQORGCBVgCDMHkkZPoyAlTusNWOQH",  # Ваш пароль для подключения
+            host="autorack.proxy.rlwy.net",  # Хост, предоставленный Railway
+            port=29985  # Порт, предоставленный Railway
         )
-
         return connection
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database connection error: {e}")
 
 # Модель пользователя
 class User(BaseModel):
-    chat_id: int
-    name: str
-    role: str
-
+    id: int
+    user_id: int
+    user_name: str
+    user_role: str
 
 # Модель пользователя для редактирования
 class UserUpdate(BaseModel):
-    chat_id: Optional[int]
-    name: Optional[str]
-    role: Optional[str]
+    user_id: Optional[int]
+    user_name: Optional[str]
+    user_role: Optional[str]
 
 # Эндпоинт для получения списка пользователей
 @app.get("/users", response_model=List[User])
@@ -66,8 +64,8 @@ def add_user(user: User):
     try:
         with connection.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO users (chat_id, name, role) VALUES (%s, %s, %s, %s)",
-                (user.chat_id, user.name, user.role)
+                "INSERT INTO users (id, user_id, user_name, user_role) VALUES (%s, %s, %s, %s)",
+                (user.id, user.user_id, user.user_name, user.user_role)
             )
             connection.commit()
             return {"message": "User added successfully", "user": user}
@@ -95,7 +93,6 @@ def delete_user(user_id: int):
     finally:
         connection.close()
 
-
 # Эндпоинт для редактирования пользователя по ID
 @app.put("/users/{user_id}")
 def update_user(user_id: int, user_update: UserUpdate):
@@ -111,17 +108,17 @@ def update_user(user_id: int, user_update: UserUpdate):
             update_fields = []
             update_values = []
 
-            if user_update.chat_id is not None:
-                update_fields.append("chat_id = %s")
-                update_values.append(user_update.chat_id)
+            if user_update.user_id is not None:
+                update_fields.append("user_id = %s")
+                update_values.append(user_update.user_id)
 
-            if user_update.name is not None:
-                update_fields.append("name = %s")
-                update_values.append(user_update.name)
+            if user_update.user_name is not None:
+                update_fields.append("user_name = %s")
+                update_values.append(user_update.user_name)
 
-            if user_update.role is not None:
-                update_fields.append("role = %s")
-                update_values.append(user_update.role)
+            if user_update.user_role is not None:
+                update_fields.append("user_role = %s")
+                update_values.append(user_update.user_role)
 
             update_values.append(user_id)
 
