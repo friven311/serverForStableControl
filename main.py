@@ -34,7 +34,6 @@ def get_db_connection():
 
 # Модель пользователя
 class User(BaseModel):
-    id: int
     chat_id: int
     name: str
     role: str
@@ -67,8 +66,8 @@ def add_user(user: User):
     try:
         with connection.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO users (id, chat_id, name, role) VALUES (%s, %s, %s, %s)",
-                (user.id, user.chat_id, user.name, user.role)
+                "INSERT INTO users (chat_id, name, role) VALUES (%s, %s, %s, %s)",
+                (user.chat_id, user.name, user.role)
             )
             connection.commit()
             return {"message": "User added successfully", "user": user}
