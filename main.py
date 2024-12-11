@@ -38,7 +38,11 @@ class User(BaseModel):
     chat_id: int
     name: str
     role: str
-
+class History(BaseModel):
+    id: int
+    open_name: str
+    open_id: int
+    status: str
 # Модель пользователя для редактирования
 class UserUpdate(BaseModel):
     chat_id: Optional[int]
@@ -118,5 +122,36 @@ def update_user(user_id: int, user_update: UserUpdate):
             return {"message": f"User with id {user_id} successfully updated"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error updating user: {e}")
+    finally:
+        connection.close()
+
+# Эндпоинт для получения всех записей из History
+@app.get("/History", response_model=List[History])
+def get_history():
+    connection = get_db_connection()
+    try:
+        with connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            cursor.execute("SELECT * FROM History")
+            items = cursor.fetchall()
+            return items
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching History: {e}")
+    finally:
+        connection.close()
+
+# Эндпоинт для добавления новой записи в open_items
+@app.post("/open_items")
+def add_open_item(item: History):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO open_items (id, open_name, open_id, status) VALUES (%s, %s, %s, %s)",
+                (item.id, item.open_name, item.open_id, item.status)
+            )
+            connection.commit()
+            return {"message": "Open item added successfully", "item": item}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error adding open item: {e}")
     finally:
         connection.close()
