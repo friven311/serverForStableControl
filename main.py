@@ -140,14 +140,14 @@ def get_history():
     finally:
         connection.close()
 
-# Эндпоинт для добавления новой записи в open_items
+# Эндпоинт для добавления новой записи в history1
 @app.post("/history1")
 def add_history(item: History):
     connection = get_db_connection()
     try:
         with connection.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO history1 (id, datetime, status,	open_name,	open_id,) VALUES (%s, %s, %s, %s)",
+                "INSERT INTO history1 (id, datetime, status, open_name,	open_id) VALUES (%s, %s, %s, %s)",
                 (item.id, item.datetime, item.status, item.open_name, item.open_id)
             )
             connection.commit()
