@@ -4,7 +4,7 @@ from typing import List, Optional
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from fastapi.middleware.cors import CORSMiddleware
-
+from datetime import datetime
 
 
 # Инициализация FastAPI
@@ -40,10 +40,10 @@ class User(BaseModel):
     role: str
 class History(BaseModel):
     id: int
-    open_name: str
-    datetime: str
-    open_id: int
+    datetime: datetime
     status: str
+    open_name: str
+    open_id: int
 # Модель пользователя для редактирования
 class UserUpdate(BaseModel):
     chat_id: Optional[int]
