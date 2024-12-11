@@ -41,6 +41,7 @@ class User(BaseModel):
 class History(BaseModel):
     id: int
     open_name: str
+    datetime: str
     open_id: int
     status: str
 # Модель пользователя для редактирования
@@ -126,12 +127,12 @@ def update_user(user_id: int, user_update: UserUpdate):
         connection.close()
 
 # Эндпоинт для получения всех записей из History
-@app.get("/History", response_model=List[History])
+@app.get("/history1", response_model=List[History])
 def get_history():
     connection = get_db_connection()
     try:
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
-            cursor.execute("SELECT * FROM history")
+            cursor.execute("SELECT * FROM history1")
             items = cursor.fetchall()
             return items
     except Exception as e:
@@ -140,18 +141,20 @@ def get_history():
         connection.close()
 
 # Эндпоинт для добавления новой записи в open_items
-@app.post("/History")
+@app.post("/history1")
 def add_history(item: History):
     connection = get_db_connection()
     try:
         with connection.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO history (id, open_name, open_id, status) VALUES (%s, %s, %s, %s)",
-                (item.id, item.open_name, item.open_id, item.status)
+                "INSERT INTO history1 (id, datetime, status,	open_name,	open_id,) VALUES (%s, %s, %s, %s)",
+                (item.id, item.datetime, item.status, item.open_name, item.open_id)
             )
             connection.commit()
-            return {"message": "History added successfully", "item": item}
+            return {"message": "History1 added successfully", "item": item}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error adding History: {e}")
+        raise HTTPException(status_code=500, detail=f"Error adding History1: {e}")
     finally:
         connection.close()
+
+
