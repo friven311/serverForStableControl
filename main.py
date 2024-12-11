@@ -147,9 +147,10 @@ def add_history(item: History):
     try:
         with connection.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO history1 (id, datetime, status, open_name,	open_id) VALUES (%s, %s, %s, %s)",
+                "INSERT INTO history1 (id, datetime, status, open_name, open_id) VALUES (%s, %s, %s, %s, %s)",
                 (item.id, item.datetime, item.status, item.open_name, item.open_id)
             )
+
             connection.commit()
             return {"message": "History1 added successfully", "item": item}
     except Exception as e:
