@@ -143,6 +143,8 @@ def get_history():
 # Эндпоинт для добавления новой записи в history1
 @app.post("/history1")
 def add_history(item: History):
+    print(f"Received raw JSON: {item.json()}")
+    print(f"Received item: {item}")
     connection = get_db_connection()
     try:
         with connection.cursor() as cursor:
